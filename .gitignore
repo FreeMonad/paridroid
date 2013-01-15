@@ -18,3 +18,10 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+
+# pari source
+pari/
+
+# include files
+Makefile.in
+Makefile.include

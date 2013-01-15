@@ -8,13 +8,17 @@ all: libpari
 
 libpari:
 	cd $(PARI_SRC)/Oandroid-arm && make
-	mkdir $(TOP)/gen
-	cp $(PARI_SRC)/Oandroid-arm/libpari.so $(TOP)/gen
-	cp $(PARI_SRC)/Oandroid-arm/gp-dyn $(TOP)/gen
+
+ndk-modules: libpari-ndk
+
+libpari-ndk: libpari
+	mkdir -p $(TOP)/ndk-modules/libpari
+	cp $(PARI_SRC)/Oandroid-arm/libpari.so $(TOP)/ndk-modules/libpari
 
 clean:
 	cd $(PARI_SRC)/Oandroid-arm && make clean
+	rm -f $(PARI_SRC)/pari.cfg
 
 uberclean: clean
-	rm -rf $(TOP)/gen
+	rm -rf $(PARI_SRC)/android
 
