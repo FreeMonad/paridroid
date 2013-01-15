@@ -1,4 +1,4 @@
-.PHONY: all libpari clean
+.PHONY: all libpari libpari-ndk ndk-modules paridroid clean uberclean
 
 include ./Makefile.include
 
@@ -25,10 +25,10 @@ paridroid: ndk-modules
 
 clean:
 	rm -f $(PARI_SRC)/pari.cfg
-	cd $(PARI_SRC)/Oandroid-arm && make clean
 	cd $(PARIDROID_SRC) && ant clean
 
 uberclean: clean
 	rm -rf $(PARI_SRC)/android
 	rm -rf $(NDK_MODULES)/pari/lib/*.so
 	rm -rf $(NDK_MODULES)/pari/include/*.h
+	cd $(PARI_SRC)/Oandroid-arm && make clean
