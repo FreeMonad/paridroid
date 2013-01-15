@@ -58,6 +58,13 @@ sub set_install_dir {
   }
 }
 
+# naive - will not work with clang, for example
+sub get_cc {
+  my ( $self ) = @_;
+  my $cc = File::Spec->catfile( $self->{install_dir}, 'bin', 'arm-linux-androideabi-gcc' );
+  return $cc;
+}
+
 sub is_mutable {
   my ( $self ) = @_;
   return $self->{mutable};

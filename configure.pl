@@ -130,7 +130,8 @@ sub _gen_pari_config {
 
   my ( $toolchain, $prefix ) = @_;
 
-  my ( $test_basic, $test_extra, $top_test_extra, $top_dotest_extra ) = get_tests();
+  my $cc = $pari_toolchain->get_cc();
+  my $modules = get_modules_build( $toolchain );
 
   my %config = (
 		'shell_q' => '',
@@ -163,10 +164,10 @@ sub _gen_pari_config {
 		'doubleformat' => '1',
 		'enable_tls' => '',
 		'test_extra_out' => 'ploth',
-		'test_extra' => $test_extra,
-		'test_basic' => $test_basic,
-		'top_test_extra' => $top_test_extra,
-		'top_dotest_extra' => $top_dotest_extra,
+		'test_extra' => '',
+		'test_basic' => '',
+		'top_test_extra' => '',
+		'top_dotest_extra' => '',
 		'prefix' => $prefix,
 		'share_prefix' => $prefix . '/share',
 		'bindir' => $prefix . '/bin',
@@ -177,7 +178,7 @@ sub _gen_pari_config {
 		'sysdatadir' => $prefix . '/lib/pari',
 		'add_funclist' => '../src/funclist',
 		'__gnuc__' => '4.4.3 (arm-linux-androideabi, GNU/Linux) ',
-		'CC' => $toolchain . '/bin/arm-linux-androideabi-gcc',
+		'CC' => $cc,
 		'CFLAGS' => '-g -O3 -Wall -fomit-frame-pointer -fno-strict-aliasing',
 		'optimization' => 'full',
 		'DBGFLAGS' => '-g -Wall',
@@ -185,7 +186,7 @@ sub _gen_pari_config {
 		'exe_suff' => '',
 		'suffix' => '',
 		'ASMINLINE' => 'yes',
-		'LD' => $toolchain . '/bin/arm-linux-androideabi-gcc',
+		'LD' => $cc,
 		'LDFLAGS' => '-g -O3 -fomit-frame-pointer -fno-strict-aliasing -Wl,--export-dynamic ',
 		'LIBS' => '-lm',
 		'runpathprexix' => '',
@@ -194,7 +195,7 @@ sub _gen_pari_config {
 		'GNULDused' => 'yes',
 		'DLCFLAGS' => '-fPIC',
 		'DL_DFLT_NAME' => 'NULL',
-		'DLLD' => $toolchain . '/bin/arm-linux-androideabi-gcc',
+		'DLLD' => $cc,
 		'DLLDFLAGS' => '-shared $(CFLAGS) $(DLCFLAGS) -Wl,-shared,-soname=$(LIBPARI_SONAME)',
 		'EXTRADLLDFLAGS' => '-lc ${LIBS}',
 		'DLSUFFIX' => 'so',
@@ -209,9 +210,9 @@ sub _gen_pari_config {
 		'QTDIR' => '',
 		'QTLIB' => '',
 		'EXTRAMODLDFLAGS' => '-lc -lm -L ' . $toolchain . '/sysroot/usr/lib -lpari',
-		'MODLD' => $toolchain . '/bin/arm-linux-androideabi-gcc',
+		'MODLD' => $cc,
 		'MODLDFLAGS' => '-shared $(CFLAGS) $(DLCFLAGS) -Wl,-shared ',
-		'modules_build' => $toolchain . '/bin/arm-linux-androideabi-gcc -c -o %s.o -g -O3 -Wall -fomit-frame-pointer -fno-strict-aliasing -fPIC -I"' . $toolchain . '/sysroot/usr/include" %s.c && cc -o %s.so -shared -g -O3 -Wall -fomit-frame-pointer -fno-strict-aliasing -fPIC -Wl,-shared %s.o -lc -lm -L' . $toolchain . '/sysroot/usr/lib -lpari',
+		'modules_build' => $modules,
 		'readline' => '',
 		'readline_version' => '',
 		'readline_enabledp' => '',
@@ -254,36 +255,24 @@ sub _gen_pari_config {
   return %config;
 }
 
-sub get_tests {
+sub get_modules_build {
+my ( $toolchain )  = @_;
 
-  my $test_basic = 'objets analyz number polyser linear elliptic sumiter graph program trans nfields_20';
+my $cc = $pari_toolchain->get_cc();
 
-  my $test_extra = 'addprimes analyz apply aurifeuille bezout bnfisintnorm bnr charpoly combinat compat contfrac cxtrigo debugger det diffop ell
-		    ellglobalred elliptic ellsea ellweilpairing err exact0 extract ff ffisom galois galoisinit graph ideal idealappr idealramgroups
-		    intformal intnum ispower krasner linear list lll mat matsnf member modpr multivar-mul nf nffactor nfhilbert nfields nfrootsof1
-		    number objets partition polchebyshev polmod polred polyser printf program qf qfbsolve quad quadclassunit quadray random resultant
-		    rfrac rnf rnfkummer round4 select stark subcyclo subfields sumiter thue trans zetak zn';
+my @compile = (
+	       "$cc",
+	       '-c -o %s.o -g -O3 -Wall -fomit-frame-pointer -fno-strict-aliasing -fPIC',
+	       '-I"' . "$toolchain" . '/sysroot/usr/include"',
+	       '%s.c && cc -o %s.so -shared -g -O3 -Wall -fomit-frame-pointer -fno-strict-aliasing -fPIC',
+	       '-Wl,-shared %s.o -lc -lm -L' . "$toolchain" . '/sysroot/usr/lib -lpari',
+	      );
 
-  my $top_test_extra = 'test-addprimes test-analyz test-apply test-aurifeuille test-bezout test-bnfisintnorm test-bnr test-charpoly test-combinat test-compat
-			test-contfrac test-cxtrigo test-debugger test-det test-diffop test-ell test-ellglobalred test-elliptic test-ellsea test-ellweilpairing
-			test-err test-exact0 test-extract test-ff test-ffisom test-galois test-galoisinit test-graph test-ideal test-idealappr test-idealramgroups
-			test-intformal test-intnum test-ispower test-krasner test-linear test-list test-lll test-mat test-matsnf test-member test-modpr
-			test-multivar-mul test-nf test-nffactor test-nfhilbert test-nfields test-nfrootsof1 test-number test-objets test-partition test-polchebyshev
-			test-polmod test-polred test-polyser test-printf test-program test-qf test-qfbsolve test-quad test-quadclassunit test-quadray test-random
-			test-resultant test-rfrac test-rnf test-rnfkummer test-round4 test-select test-stark test-subcyclo test-subfields test-sumiter test-thue
-			test-trans test-zetak test-zn test-ploth';
+my $modules_build = join( ' ', @compile );
 
-  my $top_dotest_extra = 'dotest-addprimes dotest-analyz dotest-apply dotest-aurifeuille dotest-bezout dotest-bnfisintnorm dotest-bnr dotest-charpoly dotest-combinat
-			  dotest-compat dotest-contfrac dotest-cxtrigo dotest-debugger dotest-det dotest-diffop dotest-ell dotest-ellglobalred dotest-elliptic dotest-ellsea
-			  dotest-ellweilpairing dotest-err dotest-exact0 dotest-extract dotest-ff dotest-ffisom dotest-galois dotest-galoisinit dotest-graph dotest-ideal
-			  dotest-idealappr dotest-idealramgroups dotest-intformal dotest-intnum dotest-ispower dotest-krasner dotest-linear dotest-list dotest-lll dotest-mat
-			  dotest-matsnf dotest-member dotest-modpr dotest-multivar-mul dotest-nf dotest-nffactor dotest-nfhilbert dotest-nfields dotest-nfrootsof1 dotest-number
-			  dotest-objets dotest-partition dotest-polchebyshev dotest-polmod dotest-polred dotest-polyser dotest-printf dotest-program dotest-qf dotest-qfbsolve
-			  dotest-quad dotest-quadclassunit dotest-quadray dotest-random dotest-resultant dotest-rfrac dotest-rnf dotest-rnfkummer dotest-round4 dotest-select
-			  dotest-stark dotest-subcyclo dotest-subfields dotest-sumiter dotest-thue dotest-trans dotest-zetak dotest-zn dotest-ploth';
-
-  return ( $test_basic, $test_extra, $top_test_extra, $top_dotest_extra );
+return $modules_build;
 }
+
 
 sub write_pari_cfg {
   my ( $template, $outfile, %pari_config ) = @_;
