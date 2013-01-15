@@ -3,22 +3,32 @@
 include ./Makefile.include
 
 PARI_SRC=$(TOP)/pari
+PARIDROID_SRC=$(TOP)/PariDroid
+NDK_MODULES=$(TOP)/ndk-modules
 
-all: libpari
-
-libpari:
-	cd $(PARI_SRC)/Oandroid-arm && make
+all: libpari paridroid
 
 ndk-modules: libpari-ndk
 
 libpari-ndk: libpari
-	mkdir -p $(TOP)/ndk-modules/libpari
-	cp $(PARI_SRC)/Oandroid-arm/libpari.so $(TOP)/ndk-modules/libpari
+	mkdir -p $(NDK_MODULES)/pari/lib
+	cp $(PARI_SRC)/Oandroid-arm/libpari.so $(NDK_MODULES)/pari/lib
+	mkdir -p $(NDK_MODULES)/pari/include
+	cp -r $(PARI_SRC)/Oandroid-arm/*.h $(NDK_MODULES)/pari/include
+	cp -r $(PARI_SRC)/src/headers/*.h $(NDK_MODULES)/pari/include
+
+libpari:
+	cd $(PARI_SRC)/Oandroid-arm && make
+
+paridroid: ndk-modules
+	cd $(PARIDROID_SRC) && ant debug
 
 clean:
-	cd $(PARI_SRC)/Oandroid-arm && make clean
 	rm -f $(PARI_SRC)/pari.cfg
+	cd $(PARI_SRC)/Oandroid-arm && make clean
+	cd $(PARIDROID_SRC) && ant clean
 
 uberclean: clean
 	rm -rf $(PARI_SRC)/android
-
+	rm -rf $(NDK_MODULES)/pari/lib/*.so
+	rm -rf $(NDK_MODULES)/pari/include/*.h
