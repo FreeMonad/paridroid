@@ -1,13 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollViewMain"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Hello World, PariActivity"
-    />
-</LinearLayout>
-
+    android:fillViewport="true">
+  <LinearLayout 
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/paridroidInput"
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent" >
+    <AutoCompleteTextView 
+	android:id="@+id/inputText"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:scrollbars="vertical"
+	android:layout_marginLeft="5dp">
+    </AutoCompleteTextView>
+    <LinearLayout 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:drawable/bottom_bar"
+	android:gravity="center_vertical">
+      <Button 
+	  android:id="@+id/enterButton"
+	  android:layout_width="0dip"
+	  android:layout_height="wrap_content"
+	  android:layout_weight="1.0"
+	  android:text="Enter"/>
+      <Button
+	  android:id="@+id/clearButton"
+	  android:layout_width="0dip"
+	  android:layout_height="wrap_content"
+	  android:layout_weight="1.0"
+	  android:text="Clear"/>
+      <Button 
+	  android:id="@+id/favButton"
+	  android:layout_width="0dip"
+	  android:layout_height="wrap_content"
+	  android:layout_weight="1.0"
+	  android:text="Fav"/>
+      <Button 
+	  android:id="@+id/objButton"
+	  android:layout_width="0dip"
+	  android:layout_height="wrap_content"
+	  android:layout_weight="1.0"
+	  android:text="New"/>
+      <Button
+	  android:id="@+id/prevButton"
+	  android:layout_width="0dip"
+	  android:layout_height="wrap_content"
+	  android:layout_weight="1.0"
+	  android:text="Prev"/>
+      <Button 
+	  android:id="@+id/nextButton"
+	  android:layout_width="0dip"
+	  android:layout_height="wrap_content"
+	  android:layout_weight="1.0"
+	  android:text="Next"/>
+      <Button 
+	  android:id="@+id/helpButton"
+	  android:layout_width="0dip"
+	  android:layout_height="wrap_content"
+	  android:layout_weight="1.0"
+	  android:text="Help"/>
+    </LinearLayout>
+    <ListView
+	android:id="@+id/historyList"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"/>
+  </LinearLayout>
+</ScrollView>
+	
+	      

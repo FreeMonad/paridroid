@@ -26,7 +26,7 @@
 #include <setjmp.h>
 #include <strings.h>
 
-#include "org_libremath_paridroid_PariNative.h"
+#include "org_freemonad_paridroid_PariNative.h"
 #include "paridroid.h"
 
 /** number of bytes to initialize pari stack with */
@@ -123,12 +123,12 @@ char
   avma=top;
 
   volatile GEN z = gnil;
-  CATCH(CATCH_ALL)
+  pari_CATCH(CATCH_ALL)
   {
-    droidOutS(pari_err2str(global_err_data));
-  } TRY {
+    droidOutS(pari_err2str(__iferr_data));
+  } pari_TRY {
     z = gp_read_str(in);
-  } ENDCATCH;
+  } pari_ENDCATCH;
  
   if (z != gnil) 
   {

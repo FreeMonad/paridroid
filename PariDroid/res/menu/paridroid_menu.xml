@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:id="@+id/app_settings"
+	android:title="@string/settings">
+    <menu>
+      <item android:id="@+id/setMaxprime"
+	    android:title="@string/max_prime"/>
+      <item android:id="@+id/setStacksize"
+	    android:title="@string/stack_size"/>
+      <item android:id="@+id/setRealPrecision"
+	    android:title="@string/real_precision"/>
+      <item android:id="@+id/setSeriesPrecision"
+	    android:title="@string/series_precision"/>
+    </menu>
+  </item>
+  <item android:id="@+id/docs"
+	android:title="@string/documentation"/>
+  <item android:id="@+id/app_license"
+	android:title="@string/license"/>
+</menu>
