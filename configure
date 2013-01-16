@@ -8,10 +8,21 @@ BEGIN { unshift @INC, qw(./perl5 ./perl5/Android ./perl5/Android/NDK); }
 use File::Spec;
 use Android::NDK;
 
-my $ndk_path = $ARGV[0];
-
 my $top = File::Spec->rel2abs(File::Spec->curdir());
 
+my $build_file = File::Spec->catfile( $top, 'build.cnf' );
+
+my $build_cnf = { };
+
+my ( $ndk_path, $sdk_path );
+
+unless ( -f $build_file ) {
+  $ndk_path = $ARGV[0];
+  $sdk_path = $ARGV[1];
+  $build_cnf = { };
+} else {
+  $build_cnf = read_build_cnf( $build_file );
+}
 my $pari_source = File::Spec->catdir( $top, 'pari' );
 
 unless ( -d $pari_source ) {
@@ -33,7 +44,7 @@ print 'Generated Makefile.include:' . "$makefile_in","\n";
 my $pari_cfg = gen_pari_cfg();
 print 'Generated Pari/GP Configuration File: ' . "$pari_cfg","\n";
 
-my $sysroot = File::Spec->catdir ( $pari_toolchain->get_install_dir(), 'sysroot' );
+my $sysroot = File::Spec->catdir( $pari_toolchain->get_install_dir(), 'sysroot' );
 
 unless ( -d $sysroot ) {
   $pari_toolchain->build();
@@ -273,6 +284,19 @@ my $modules_build = join( ' ', @compile );
 return $modules_build;
 }
 
+sub read_build_cnf {
+  my ( $file_path ) = @_;
+  my $cnf = { };
+
+  open ( my $FH, '<', $file_path )
+    or die "could not open $file_path: $!";
+
+  while ( <$FH> ) {
+    my ( $key, $value ) = split( '=', $_ );
+    $cnf->{$key} = $value;
+  }
+  return $cnf;
+}
 
 sub write_pari_cfg {
   my ( $template, $outfile, %pari_config ) = @_;
