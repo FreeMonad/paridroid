@@ -3,6 +3,7 @@ PariDroid
 
 Pari/GP for Android.
 
+
 Setting Up
 ==========
 
@@ -35,6 +36,7 @@ Finally, turn the `paridroid/PariDroid` directory in to a proper android project
 
 For more information, see the Android documentation and manual pages.
 
+
 Building
 ========
 
@@ -45,6 +47,7 @@ First, configure the sources and prepare to compile.
        make
 
 This should ultimately create a file `PariDroid.apk` under the project root directory.
+
 
 Installing
 ==========
@@ -57,6 +60,7 @@ If you want to reinstall/update the package, then you must invoke the `-r` flag:
 
        adb install -r PariDroid.apk
 
+
 Debugging
 =========
 
@@ -64,3 +68,15 @@ Make sure the device/emulator is attached and detected by the `adb` tool, then c
 
      	  adb logcat
 
+
+Further Notes
+=============
+
+You will need:
+
+    * GNU/Linux or Mac OS X
+    * Dependencies required to compile Pari/GP (gcc, libc-dev, libreadline-dev, flex, bison, make...)
+    * Android SDK and NDK
+    * Perl ( >= 5 )
+    * 32-bit compatibility libraries, if using a 64-bit Linux.
+    
