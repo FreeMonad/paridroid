@@ -16,10 +16,11 @@ Note that the ADT package is not necessary (unless you want to use Eclipse), you
 
 It is recommended to extract the Android SDK (resp. NDK) tarball into `$HOME/opt/android/sdk` (resp. `$HOME/opt/android/ndk` ), then place the following in your `~/.bashrc` file:
 
-   export SDK=$HOME/opt/android/sdk/android-sdk-linux
-   export NDK=$HOME/opt/android/ndk/android-ndk-r8d
-   
-   alias android=$SDK/tools/android
+```shell
+export SDK=$HOME/opt/android/sdk/android-sdk-linux
+export NDK=$HOME/opt/android/ndk/android-ndk-r8d   
+alias android=$SDK/tools/android
+```
 
 Then run then `android` command and install at least one Android platform to target. If you need a default, then pick `android-4`.
 
@@ -40,7 +41,7 @@ Building
 First, configure the sources and prepare to compile.
 
        cd paridroid
-       perl configure.pl $NDK
+       ./configure $NDK
 
 This should create (non-empty) directories `paridroid/pari/android/android-toolchain` and `paridroid/pari/Oandroid-arm`.
 
