@@ -6,7 +6,7 @@ PARI_SRC=$(TOP)/pari
 PARIDROID_SRC=$(TOP)/PariDroid
 NDK_MODULES=$(PARIDROID_SRC)/jni
 
-all: libpari paridroid
+all: libpari paridroid apk
 
 apk: paridroid
 	cp $(PARIDROID_SRC)/bin/PariDroid-debug.apk $(TOP)/PariDroid.apk
