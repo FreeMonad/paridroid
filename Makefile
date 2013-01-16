@@ -12,7 +12,7 @@ apk: paridroid
 	cp $(PARIDROID_SRC)/bin/PariDroid-debug.apk $(TOP)/PariDroid.apk
 
 paridroid: $(NDK_MODULES)/paridroid/org_freemonad_paridroid_PariNative.h
-	cd $(NDK_MODULES) && $(NDK)/ndk-build V=1
+	cd $(NDK_MODULES) && $(NDK_PATH)/ndk-build V=1
 	cd $(PARIDROID_SRC) && ant debug
 
 $(NDK_MODULES)/paridroid/org_freemonad_paridroid_PariNative.h: libpari
