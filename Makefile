@@ -33,7 +33,7 @@ clean:
 	cd $(PARIDROID_SRC) && ant clean
 
 ndk-clean:
-	cd $(NDK_MODULES) && $(NDK)/ndk-build clean V=1
+	cd $(NDK_MODULES) && $(NDK_PATH)/ndk-build clean V=1
 
 pari-clean: 
 	rm -f $(PARI_SRC)/pari.cfg
