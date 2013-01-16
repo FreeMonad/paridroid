@@ -42,7 +42,25 @@ First, configure the sources and prepare to compile.
 
        cd paridroid
        ./configure $NDK
+       make
 
-This should create (non-empty) directories `paridroid/pari/android/android-toolchain` and `paridroid/pari/Oandroid-arm`.
+This should ultimately create a file `PariDroid.apk` under the project root directory.
 
-Now we can compile with `make`.
+Installing
+==========
+
+You can install by connecting a device (or launching an Emulator) and running the command:
+
+    	adb install PariDroid.apk
+
+If you want to reinstall/update the package, then you must invoke the `-r` flag:
+
+       adb install -r PariDroid.apk
+
+Debugging
+=========
+
+Make sure the device/emulator is attached and detected by the `adb` tool, then check the system log:
+
+     	  adb logcat
+
