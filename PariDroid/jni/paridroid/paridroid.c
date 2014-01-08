@@ -3,6 +3,7 @@
  * paridroid.c - Android wrapper around libpari.
  *-----------------------------------------------
  * Copyright (C) 2011, Charles Boyd
+ *               2014, Andreas Enge
  *
  * This file is part of PariDroid.
  *
@@ -84,11 +85,17 @@ help(const char *s)
     pari_printf("Function %s not found\n",s);
 }
 
-void 
+void
+print_version(char *vers)
+{
+  LOGI("PARIDROID_LIBRARY_VERSION = %s", vers);
+}
+
+void
 paridroid_init()
 {
 
-  static const entree functions_gp[]={
+  static entree functions_gp[]={
     {"quit",0,(void*)paridroid_quit,11,"vD0,L,","quit({status = 0}): quit, return to the system with exit status 'status'."},
     {"help",0,(void*)help,11,"vr","help(fun): display help for function fun"},
     {NULL,0,NULL,0,NULL,NULL}};
@@ -104,14 +111,8 @@ paridroid_init()
   print_version("v1.5");
 }
 
-void
-print_version(char *vers)
-{
-  LOGI("PARIDROID_LIBRARY_VERSION = %s", vers);
-}
-
-char 
-*paridroid_eval(const char *in) 
+char
+*paridroid_eval(const char *in)
 {
 
   if(setjmp(env) != 0) {
@@ -130,11 +131,11 @@ char
     z = gp_read_str(in);
   } pari_ENDCATCH;
  
-  if (z != gnil) 
+  if (z != gnil)
   {
       char *out;
-      pari_add_hist(z);
-      if (in[strlen(in)-1]!=';') 
+      pari_add_hist(z, 0); /* FIXME: change 0 with execution time */
+      if (in[strlen(in)-1]!=';')
 	{
 	  out = GENtostr(z);
 	  droidOutS(out);

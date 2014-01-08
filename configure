@@ -135,9 +135,9 @@ sub _gen_pari_config {
 
   my %config = (
 		'shell_q' => '',
-		'pari_release' => '2.6.0',
-		'pari_release_verbose' => '2.6.0 (DEVELOPMENT VERSION)',
-		'version' => '2.6',
+		'pari_release' => '2.6.2',
+		'pari_release_verbose' => '2.6.2 (DEVELOPMENT VERSION)',
+		'version' => '2.6.2',
 		'libpari_base' => 'pari',
 		'static' => 'n',
 		'objdir' => 'Oandroid-arm',
@@ -240,7 +240,7 @@ sub _gen_pari_config {
 		'has_strftime' => 'yes',
 		'has_getrusage' => 'yes',
 		'has_sigaction' => 'yes',
-		'has_TIOCGWINSZ' => 'yes',
+		'has_TIOCGWINSZ' => 'no',
 		'has_getrlimit' => 'yes',
 		'has_stat' => 'yes',
 		'has_vsnprintf' => 'yes',
