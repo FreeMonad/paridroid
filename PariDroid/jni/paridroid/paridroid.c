@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <pari.h>
+#include <pari/pari.h>
 #include <setjmp.h>
 #include <strings.h>
 
@@ -126,7 +126,7 @@ char
   volatile GEN z = gnil;
   pari_CATCH(CATCH_ALL)
   {
-    droidOutS(pari_err2str(__iferr_data));
+    droidOutS(pari_err2str(pari_err_last()));
   } pari_TRY {
     z = gp_read_str(in);
   } pari_ENDCATCH;
